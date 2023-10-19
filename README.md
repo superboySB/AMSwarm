@@ -1,23 +1,28 @@
-# AMSwarm Repository 
+# Collision-Free Multi-UAV Path Finding (Fork from AMSwarm Repository)
+这是一个基于MPC求解QP的方法，目的是快速生成2D/3D多智能体无碰撞轨迹（障碍物包括agent和obstacles）。为了更好地用这个方法对接到其它的工程中，我删掉了相应的ROS依赖、baselines（ACADO）代码，并且维护了直接将C++运行的采样结果可视化为gif动画的功能，便于查看轨迹效果。
 
-Repository associated with paper titled "AMSwarm: An Alternating Minimization Approach for Safe Motion Planning of Quadrotor Swarms in Cluttered Environments", presented at IEEE ICRA 2023.
+## 基本使用方法
+代码主要的依赖库安装
+```sh
+apt-get install nlohmann-json3-dev libeigen3-dev libboost-test-dev
+```
+编译
+```sh
+mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
+```
+运行MPC求解多机轨迹
+```sh
+./gen_traj
+```
+可视化轨迹
+```sh
+python animate_traj.py
+```
+## 默认运行效果
+![](https://github.com/superboySB/AMSwarm/docs/animate.gif)
 
-Video: [https://youtu.be/eIBcOKq5_Jk](https://youtu.be/eIBcOKq5_Jk)
-### What's included
+## 注意事项
+1. 经过检验，通常MPC的求解效果取决于两方面，一个是QP求解器的性能，还有一个是约束定义得是否合理，对于minimun snap trajectories来说，不合理的thrust配置很有可能会导致收敛变慢
 
-* Codes: 
-    * Proposed Distributed Alternating Minimizatiom (AM) based approach
-    * Distributed Sequential Convex Programming (SCP) with Continuous Collision Avoidance [1] and On-demand Collision Avoidance [2].
-    * Distributed Trajectory Optimization with Optimal Control Solver ACADO [3] (incorporating discrete-time Barrier Function constraints)
-* Supplementart Material:
-    * Detailed experimental setup
-
-### Simulation Environment Example
-
-![sim_env](amswarm/data/sim_env.png)  
-_Fig. 40 quadrotors in a forest-like cluttered environment. Dark-colored ellipsoids are quadrotors and light-colored ellipsoids are respective goals of each quadrotor. Red-dashed lines represent a workable space, and tall blue cylinders are static obstacles._
-
-### References
-[1] Soria, Enrica, Fabrizio Schiano, and Dario Floreano. "Distributed Predictive Drone Swarms in Cluttered Environments." IEEE Robotics and Automation Letters 7.1 (2021): 73-80.    
-[2] Luis, Carlos E., Marijan Vukosavljev, and Angela P. Schoellig. "Online trajectory generation with distributed model predictive control for multi-robot motion planning." IEEE Robotics and Automation Letters 5.2 (2020): 604-611.  
-[3] Houska, Boris, Hans Joachim Ferreau, and Moritz Diehl. "ACADO toolkit—An open‐source framework for automatic control and dynamic optimization." Optimal Control Applications and Methods 32.3 (2011): 298-312.
+## References
+参考pybullet-drones的官方论文: Repository associated with paper titled "AMSwarm: An Alternating Minimization Approach for Safe Motion Planning of Quadrotor Swarms in Cluttered Environments", presented at IEEE ICRA 2023. [https://youtu.be/eIBcOKq5_Jk](https://youtu.be/eIBcOKq5_Jk)
