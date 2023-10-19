@@ -19,7 +19,7 @@ mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
 python animate_traj.py
 ```
 ## 默认运行效果
-![](https://github.com/superboySB/AMSwarm/docs/animate.gif)
+![](https://github.com/superboySB/AMSwarm/blob/main/docs/animate.gif)
 
 ## 注意事项
 1. 经过检验，通常MPC的求解效果取决于两方面，一个是QP求解器的性能，还有一个是约束定义得是否合理，对于minimun snap trajectories来说，不合理的thrust配置很有可能会导致收敛变慢
