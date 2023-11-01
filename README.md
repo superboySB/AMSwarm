@@ -6,6 +6,12 @@
 ```sh
 apt-get install nlohmann-json3-dev libeigen3-dev libboost-test-dev
 ```
+写docker的同学可以参考这两句
+```docker
+RUN apt-get install -y doxygen graphviz libeigen3-dev libboost-test-dev
+RUN cd /workspace && git clone --recursive https://github.com/superboySB/eigen-quadprog && cd eigen-quadprog && mkdir build && \
+    cd build && cmake .. && make && make install && ln -s /usr/include/eigen3/Eigen /usr/include/Eigen
+```
 编译
 ```sh
 mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
